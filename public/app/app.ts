@@ -1,3 +1,5 @@
+/// <reference path="player.ts" />
+
 // Any valid JavaScript code is a valid TypeScript code
 function startGame() {
 	// starting a new game
@@ -13,16 +15,7 @@ function logPlayer(name: string = 'MultiMath Player'): void {
 	console.log(`New game starting for player: ${name}`);
 }
 
-function getInputValue(elementId: string): string | undefined {
-	const inputElement: HTMLInputElement = <HTMLInputElement>document.getElementById(elementId);
 
-	if (inputElement.value === '') {
-		return undefined;
-	}
-	else {
-		return inputElement.value;
-	}
-}
 
 function postScore(score: number, playerName: string = 'MultiMath Player'): void {
 	let logger: (value: string) => void;
@@ -47,3 +40,7 @@ const logMessage = (message: string) => console.log(message);
 function logError(err: string): void {
 	console.error(err);
 }
+
+const firstPlayer: Player = new Player();
+firstPlayer.name = 'Lanier';
+console.log(firstPlayer.formatName());
