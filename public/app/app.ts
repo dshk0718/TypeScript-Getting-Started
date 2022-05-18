@@ -1,46 +1,22 @@
-/// <reference path="player.ts" />
+import { Player } from './player';
+import { Game } from './game';
+import * as Helpers from "./utility"
 
-// Any valid JavaScript code is a valid TypeScript code
-function startGame() {
-	// starting a new game
+let newGame: Game;
 
-	let playerName: string | undefined = getInputValue('playername');
-	logPlayer(playerName);
+// add click handler to the start game button
+document.getElementById('startGame')!.addEventListener('click', () => {
+	const player: Player = new Player();
+	player.name = Helpers.getValue('playername');
 
-	postScore(80, playerName);
-	postScore(-5, playerName);
-}
+	const problemCount: number = Number(Helpers.getValue('problemCount'));
+	const factor: number = Number(Helpers.getValue('factor'));
 
-function logPlayer(name: string = 'MultiMath Player'): void {
-	console.log(`New game starting for player: ${name}`);
-}
+	newGame = new Game(player, problemCount, factor);
+	newGame.displayGame();
+});
 
-
-
-function postScore(score: number, playerName: string = 'MultiMath Player'): void {
-	let logger: (value: string) => void;
-
-	if (score < 0) {
-		logger = logError;
-	}
-	else {
-		logger = logMessage;
-	}
-	
-	const scoreElement: HTMLElement | null = document.getElementById('postedScores');
-	scoreElement!.innerText = `${score} - ${playerName}`;
-
-	logger(`Score: ${score}`);
-}
-
-document.getElementById('startGame')!.addEventListener('click', startGame);
-
-const logMessage = (message: string) => console.log(message);
-
-function logError(err: string): void {
-	console.error(err);
-}
-
-const firstPlayer: Player = new Player();
-firstPlayer.name = 'Lanier';
-console.log(firstPlayer.formatName());
+// add click handler to the calculate score button
+document.getElementById('calculate')!.addEventListener('click', () => {
+	newGame.calculateScore();
+});
